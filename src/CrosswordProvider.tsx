@@ -154,6 +154,11 @@ export const crosswordProviderPropTypes = {
   onCrosswordCorrect: PropTypes.func,
 
   /**
+   * callback function called when a cell is clicked
+   */
+  onCellClick: PropTypes.func,
+
+  /**
    * callback function called when a cell changes (e.g. when the user types a
    * letter); called with `(row, col, char)` arguments, where the `row` and
    * `column` are the 0-based position of the cell, and `char` is the character
@@ -258,6 +263,11 @@ export type CrosswordProviderProps = EnhancedProps<
     onCrosswordCorrect?: (isCorrect: boolean) => void;
 
     /**
+     * callback function called when a cell is clicked
+     */
+    onCellClick?: (cellData: CellData) => void;
+
+    /**
      * callback function called when a cell changes (e.g. when the user types a
      * letter); called with `(row, col, char)` arguments, where the `row` and
      * `column` are the 0-based position of the cell, and `char` is the
@@ -338,6 +348,7 @@ const CrosswordProvider = React.forwardRef<
       onLoadedCorrect,
       onCrosswordComplete,
       onCrosswordCorrect,
+      onCellClick,
       onCellChange,
       onClueSelected,
       useStorage,
@@ -888,9 +899,13 @@ const CrosswordProvider = React.forwardRef<
           setCurrentNumber(cellData[direction] ?? '');
         }
 
+        if (onCellClick) {
+          onCellClick(cellData);
+        }
+
         focus();
       },
-      [currentDirection, focus, focused, focusedCol, focusedRow]
+      [currentDirection, onCellClick, focus, focused, focusedCol, focusedRow]
     );
 
     const handleInputClick = useCallback<
@@ -914,9 +929,22 @@ const CrosswordProvider = React.forwardRef<
         }
 
         setCurrentNumber(cellData[direction] ?? '');
+
+        if (onCellClick) {
+          onCellClick(cellData);
+        }
+
         focus();
       },
-      [currentDirection, focus, focused, focusedCol, focusedRow, getCellData]
+      [
+        currentDirection,
+        onCellClick,
+        focus,
+        focused,
+        focusedCol,
+        focusedRow,
+        getCellData,
+      ]
     );
 
     const handleClueSelected = useCallback(
@@ -1131,6 +1159,7 @@ CrosswordProvider.defaultProps = {
   onLoadedCorrect: undefined,
   onCrosswordComplete: undefined,
   onCrosswordCorrect: undefined,
+  onCellClick: undefined,
   onCellChange: undefined,
   onClueSelected: undefined,
   children: undefined,
