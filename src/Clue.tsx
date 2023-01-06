@@ -4,6 +4,7 @@ import styled, { ThemeContext } from 'styled-components';
 
 import type { Direction, EnhancedProps } from './types';
 import { CrosswordContext } from './context';
+import { otherDirection } from './util';
 
 interface ClueWrapperProps {
   complete?: boolean | null;
@@ -42,8 +43,14 @@ export default function Clue({
   }
 >) {
   const { highlightBackground } = useContext(ThemeContext);
-  const { focused, selectedDirection, selectedNumber, handleClueSelected } =
-    useContext(CrosswordContext);
+  const {
+    focused,
+    selectedDirection,
+    selectedNumber,
+    handleClueSelected,
+    gridData,
+    selectedPosition: { row, col },
+  } = useContext(CrosswordContext);
 
   const handleClick = useCallback<React.MouseEventHandler>(
     (event) => {
@@ -53,11 +60,18 @@ export default function Clue({
     [direction, number, handleClueSelected]
   );
 
+  let otherNumber;
+  const cell = gridData[row][col];
+  if (cell.used) otherNumber = cell[otherDirection(selectedDirection)];
+
   return (
     <ClueWrapper
       highlightBackground={highlightBackground}
       highlight={
-        focused && direction === selectedDirection && number === selectedNumber
+        focused &&
+        ((direction === selectedDirection && number === selectedNumber) ||
+          (direction === otherDirection(selectedDirection) &&
+            number === otherNumber))
       }
       complete={complete}
       correct={correct}

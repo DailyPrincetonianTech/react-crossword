@@ -154,6 +154,12 @@ export const crosswordProviderPropTypes = {
   onCrosswordCorrect: PropTypes.func,
 
   /**
+   * callback function when the focused cell changes;
+   * this can be from a click, keyboard event, or when a clue is selected
+   */
+  onCellFocus: PropTypes.func,
+
+  /**
    * callback function called when a cell is clicked
    */
   onCellClick: PropTypes.func,
@@ -263,6 +269,12 @@ export type CrosswordProviderProps = EnhancedProps<
     onCrosswordCorrect?: (isCorrect: boolean) => void;
 
     /**
+     * callback function when the focused cell changes;
+     * this can be from a click, keyboard event, or when a clue is selected
+     */
+    onCellFocus?: (row: number, col: number, cellData: CellData) => void;
+
+    /**
      * callback function called when a cell is clicked
      */
     onCellClick?: (cellData: CellData) => void;
@@ -348,6 +360,7 @@ const CrosswordProvider = React.forwardRef<
       onLoadedCorrect,
       onCrosswordComplete,
       onCrosswordCorrect,
+      onCellFocus,
       onCellClick,
       onCellChange,
       onClueSelected,
@@ -557,6 +570,19 @@ const CrosswordProvider = React.forwardRef<
       checkQueue.forEach(({ row, col }) => checkCorrectness(row, col));
       setCheckQueue([]);
     }, [checkQueue, checkCorrectness]);
+
+    // inform consumers anytime focused position changes
+    useEffect(() => {
+      if (
+        onCellFocus &&
+        focusedRow != null &&
+        focusedCol != null &&
+        gridData.length > 0
+      ) {
+        const cellData = getCellData(focusedRow, focusedCol) as UsedCellData;
+        onCellFocus(focusedRow, focusedCol, cellData);
+      }
+    }, [onCellFocus, getCellData, focusedRow, focusedCol, gridData]);
 
     // Any time the clues change, determine if they are all complete/correct or
     // not.
@@ -1159,6 +1185,7 @@ CrosswordProvider.defaultProps = {
   onLoadedCorrect: undefined,
   onCrosswordComplete: undefined,
   onCrosswordCorrect: undefined,
+  onCellFocus: undefined,
   onCellClick: undefined,
   onCellChange: undefined,
   onClueSelected: undefined,
