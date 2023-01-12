@@ -743,7 +743,6 @@ const CrosswordProvider = React.forwardRef<
             moveRelative(0, 1);
             break;
 
-          case ' ': // treat space like tab?
           case 'Tab': {
             const other = otherDirection(currentDirection);
             const cellData = getCellData(
