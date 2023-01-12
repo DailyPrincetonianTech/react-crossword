@@ -786,6 +786,36 @@ const CrosswordProvider = React.forwardRef<
             break;
           }
 
+          // move to the next/last entry, switching directions if necessary
+          case 'Enter': {
+            const delta = event.shiftKey ? -1 : 1;
+            if (!clues) break;
+            const nextClueIndex =
+              clues[currentDirection].findIndex(
+                (clue) => clue.number === currentNumber
+              ) + delta;
+            let nextClue;
+            if (
+              nextClueIndex >= clues[currentDirection].length ||
+              nextClueIndex === -1
+            ) {
+              const otherDirIndex = event.shiftKey
+                ? clues[otherDirection(currentDirection)].length - 1
+                : 0;
+              nextClue = clues[otherDirection(currentDirection)][otherDirIndex];
+              moveTo(
+                nextClue.row,
+                nextClue.col,
+                otherDirection(currentDirection)
+              );
+            } else {
+              nextClue = clues[currentDirection][nextClueIndex];
+              moveTo(nextClue.row, nextClue.col);
+            }
+
+            break;
+          }
+
           default:
             // It would be nice to handle "regular" characters with onInput, but
             // that is still experimental, so we can't count on it.  Instead, we
@@ -813,6 +843,7 @@ const CrosswordProvider = React.forwardRef<
         setCellCharacter,
         moveBackward,
         data,
+        clues,
         currentNumber,
         moveTo,
       ]
