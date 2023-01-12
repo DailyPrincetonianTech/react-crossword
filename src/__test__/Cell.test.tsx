@@ -22,6 +22,7 @@ const themeContext = {
   numberColor: 'red',
   focusBackground: '#f88',
   highlightBackground: '#fdd',
+  otherHighlightBackground: '#fee',
 };
 
 const sizeContext = {

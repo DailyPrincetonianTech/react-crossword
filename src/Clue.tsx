@@ -42,7 +42,8 @@ export default function Clue({
     direction: Direction;
   }
 >) {
-  const { highlightBackground } = useContext(ThemeContext);
+  const { highlightBackground, otherHighlightBackground } =
+    useContext(ThemeContext);
   const {
     focused,
     selectedDirection,
@@ -64,22 +65,24 @@ export default function Clue({
   const cell = gridData[row][col];
   if (cell.used) otherNumber = cell[otherDirection(selectedDirection)];
 
+  const mainHighlight =
+    direction === selectedDirection && number === selectedNumber;
+  const otherHighlight =
+    direction === otherDirection(selectedDirection) && number === otherNumber;
+
   return (
     <ClueWrapper
-      highlightBackground={highlightBackground}
-      highlight={
-        focused &&
-        ((direction === selectedDirection && number === selectedNumber) ||
-          (direction === otherDirection(selectedDirection) &&
-            number === otherNumber))
+      highlightBackground={
+        mainHighlight ? highlightBackground : otherHighlightBackground
       }
+      highlight={focused && (mainHighlight || otherHighlight)}
       complete={complete}
       correct={correct}
       {...props}
       onClick={handleClick}
       aria-label={`clue-${number}-${direction}`}
     >
-      {number}: {children}
+      <b>{number}</b>: {children}
     </ClueWrapper>
   );
 }

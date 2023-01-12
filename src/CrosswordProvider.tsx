@@ -78,6 +78,8 @@ export const crosswordProviderPropTypes = {
      * background on the active clue
      */
     highlightBackground: PropTypes.string,
+    /** background color for the background of the clue in the opposite direction */
+    otherHighlightBackground: PropTypes.string,
   }),
 
   /** whether to use browser storage to persist the player's work-in-progress */
@@ -335,6 +337,7 @@ const defaultTheme: CrosswordProviderProps['theme'] = {
   numberColor: 'rgba(0,0,0, 0.25)',
   focusBackground: 'rgb(255,255,0)',
   highlightBackground: 'rgb(255,255,204)',
+  otherHighlightBackground: 'rgb(255,255,230)',
 };
 
 /**
