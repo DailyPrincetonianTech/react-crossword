@@ -25,6 +25,7 @@ const defaultTheme = {
   cellBorder: 'rgb(0,0,0)',
   textColor: 'rgb(0,0,0)',
   numberColor: 'rgba(0,0,0, 0.25)',
+  circleColor: 'rgb(0,0,0)',
   focusBackground: 'rgb(255,255,0)',
   highlightBackground: 'rgb(255,255,204)',
   otherHighlightBackground: 'rgb(255,255,230)',
@@ -56,6 +57,8 @@ const CrosswordGridPropTypes = {
     textColor: PropTypes.string,
     /** color for the across/down numbers in the grid */
     numberColor: PropTypes.string,
+    /** color for the circle drawn on circled boxes in the grid */
+    circleColor: PropTypes.string,
     /** background color for the cell with focus, the one that the player is typing into */
     focusBackground: PropTypes.string,
     /** background color for the cells in the answer the player is working on,

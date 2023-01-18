@@ -70,6 +70,8 @@ export const crosswordProviderPropTypes = {
     textColor: PropTypes.string,
     /** color for the across/down numbers in the grid */
     numberColor: PropTypes.string,
+    /** color for the circle drawn on circled boxes in the grid */
+    circleColor: PropTypes.string,
     /** background color for the cell with focus, the one that the player is typing into */
     focusBackground: PropTypes.string,
     /**
@@ -335,6 +337,7 @@ const defaultTheme: CrosswordProviderProps['theme'] = {
   cellBorder: 'rgb(0,0,0)',
   textColor: 'rgb(0,0,0)',
   numberColor: 'rgba(0,0,0, 0.25)',
+  circleColor: 'rgb(0,0,0)',
   focusBackground: 'rgb(255,255,0)',
   highlightBackground: 'rgb(255,255,204)',
   otherHighlightBackground: 'rgb(255,255,230)',
@@ -536,7 +539,7 @@ const CrosswordProvider = React.forwardRef<
               break;
             }
 
-            if (checkCell.guess !== checkCell.answer) {
+            if (checkCell.guess !== checkCell.answer.toUpperCase()) {
               correct = false;
             }
           }
@@ -1095,7 +1098,7 @@ const CrosswordProvider = React.forwardRef<
               draft.forEach((rowData) => {
                 rowData.forEach((cellData) => {
                   if (cellData.used) {
-                    cellData.guess = cellData.answer;
+                    cellData.guess = cellData.answer.toUpperCase();
                   }
                 });
               });

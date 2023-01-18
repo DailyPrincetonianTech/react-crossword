@@ -20,6 +20,7 @@ const themeContext = {
   cellBorder: '#333',
   textColor: '#666',
   numberColor: 'red',
+  circleColor: 'orange',
   focusBackground: '#f88',
   highlightBackground: '#fdd',
   otherHighlightBackground: '#fee',

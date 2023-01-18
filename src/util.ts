@@ -262,7 +262,10 @@ export function findCorrectAnswers(data: CluesInput, gridData: GuessData) {
       for (let i = 0; i < info.answer.length; i++) {
         const r = across ? row : row + i;
         const c = across ? col + i : col;
-        if ((gridData[r][c] as UsedCellData).guess !== info.answer[i]) {
+        if (
+          (gridData[r][c] as UsedCellData).guess !==
+          info.answer[i].toUpperCase()
+        ) {
           correct = false;
           break;
         }

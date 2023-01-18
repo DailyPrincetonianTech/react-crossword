@@ -57,6 +57,7 @@ export default function Cell({
     cellBorder,
     textColor,
     numberColor,
+    circleColor,
     focusBackground,
     highlightBackground,
   } = useContext(ThemeContext);
@@ -75,6 +76,8 @@ export default function Cell({
 
   const x = col * cellSize;
   const y = row * cellSize;
+
+  const circle = answer.toLowerCase() === answer; // lowercase means it should be emphasized
 
   return (
     <g
@@ -97,6 +100,16 @@ export default function Cell({
         stroke={cellBorder}
         strokeWidth={cellSize / 50}
       />
+      {circle && (
+        <circle
+          cx={x + cellHalf}
+          cy={y + cellHalf}
+          r={cellHalf * 0.95}
+          fill="none"
+          stroke={circleColor}
+          strokeWidth={cellSize / 50}
+        />
+      )}
       {number && (
         <text
           x={x + cellPadding * 4}
@@ -115,7 +128,9 @@ export default function Cell({
         dominantBaseline="middle"
         style={{ fill: textColor }}
         className={
-          answer === guess ? 'guess-text-correct' : 'guess-text-incorrect'
+          answer.toUpperCase() === guess
+            ? 'guess-text-correct'
+            : 'guess-text-incorrect'
         }
       >
         {guess}
