@@ -145,8 +145,16 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
 
   const height = useMemo(() => rows * cellSize, [rows]);
   const width = useMemo(() => cols * cellSize, [cols]);
-  const cellWidthHtmlPct = useMemo(() => 100 / cols, [cols]);
-  const cellHeightHtmlPct = useMemo(() => 100 / rows, [rows]);
+  const size = useMemo(() => Math.max(width, height), [width, height]);
+  const cellSizeHtmlPct = useMemo(
+    () => (100 / size) * cellSize,
+    [size, cellSize]
+  );
+
+  const leftOffset = useMemo(
+    () => `${((size - width) / (2 * size)) * 100}%`,
+    [size, width]
+  );
 
   // In order to ensure the top/left positioning makes sense, there is an
   // absolutely-positioned <div> with no margin/padding that we *don't* expose
@@ -159,10 +167,10 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
     () =>
       ({
         position: 'absolute',
-        top: `calc(${focusedRow * cellHeightHtmlPct * 0.995}% + 2px)`,
-        left: `calc(${focusedCol * cellWidthHtmlPct}% + 2px)`,
-        width: `calc(${cellWidthHtmlPct}% - 4px)`,
-        height: `calc(${cellHeightHtmlPct}% - 4px)`,
+        top: `calc(${focusedRow * cellSizeHtmlPct}% + 2px)`,
+        left: `calc(${focusedCol * cellSizeHtmlPct}% + 2px)`,
+        width: `calc(${cellSizeHtmlPct}% - 4px)`,
+        height: `calc(${cellSizeHtmlPct}% - 4px)`,
         fontSize: `${fontSize * 6}px`, // waaay too small...?
         textAlign: 'center',
         textAnchor: 'middle',
@@ -173,7 +181,7 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
         border: 0,
         cursor: 'default',
       } as const),
-    [cellWidthHtmlPct, cellHeightHtmlPct, focusedRow, focusedCol, fontSize]
+    [cellSizeHtmlPct, focusedRow, focusedCol, fontSize]
   );
 
   // The final theme is the merger of three values: the "theme" property
@@ -196,7 +204,10 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
             <svg>.
           */}
           <div style={{ margin: 0, padding: 0, position: 'relative' }}>
-            <svg viewBox={`0 0 ${width} ${height}`}>
+            <svg
+              style={{ position: 'relative', left: leftOffset }}
+              viewBox={`0 0 ${size} ${size}`}
+            >
               <rect
                 x={0}
                 y={0}
