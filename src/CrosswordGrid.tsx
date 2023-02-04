@@ -168,7 +168,7 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
       ({
         position: 'absolute',
         top: `calc(${focusedRow * cellSizeHtmlPct}% + 2px)`,
-        left: `calc(${focusedCol * cellSizeHtmlPct}% + 2px)`,
+        left: `calc(${focusedCol * cellSizeHtmlPct}% + 2px + ${leftOffset})`,
         width: `calc(${cellSizeHtmlPct}% - 4px)`,
         height: `calc(${cellSizeHtmlPct}% - 4px)`,
         fontSize: `${fontSize * 6}px`, // waaay too small...?
