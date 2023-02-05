@@ -181,7 +181,7 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
         border: 0,
         cursor: 'default',
       } as const),
-    [cellSizeHtmlPct, focusedRow, focusedCol, fontSize]
+    [focusedRow, cellSizeHtmlPct, focusedCol, leftOffset, fontSize]
   );
 
   // The final theme is the merger of three values: the "theme" property
