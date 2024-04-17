@@ -1,11 +1,11 @@
 {
-  "name": "@jaredreisinger/react-crossword",
-  "homepage": "https://react-crossword.jaredreisinger.com",
+  "name": "@dpt/react-crossword",
+  "homepage": "https://github.com/DailyPrincetonianTech/react-crossword",
   "version": "5.2.0",
   "description": "A flexible, responsive, and easy-to-use crossword component for React apps",
   "author": {
-    "name": "JaredReisinger",
-    "email": "jaredreisinger@hotmail.com"
+    "name": "Daily Princetonian Tech Team",
+    "email": "cto@dailyprincetonian.com"
   },
   "keywords": [
     "react",
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/JaredReisinger/react-crossword"
+    "url": "https://github.com/DailyPrincetonianTech/react-crossword"
   },
   "license": "MIT",
   "engines": {
@@ -31,19 +31,19 @@
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "stylelint": "stylelint src/**/*.{js,jsx,ts,tsx,css,scss,less}",
     "commit": "git-cz",
-    "#release": "npm run dist && semantic-release",
+    "#release": "yarn run dist && semantic-release",
     "build": "tsc",
-    "dist": "npm run clean && npm run build",
+    "dist": "yarn run clean && yarn run build",
     "clean": "rimraf build coverage dist styleguide",
     "doc:dev": "styleguidist server",
     "doc:build": "styleguidist build",
-    "doc:deploy": "npm run doc:build && gh-pages --dist styleguide --branch documentation",
+    "doc:deploy": "yarn run doc:build && gh-pages --dist styleguide --branch documentation",
     "contributors:add": "all-contributors add",
     "contributors:check": "all-contributors check",
     "#snyk-protect": "snyk protect",
-    "#prepare": "npm run snyk-protect",
-    "prepare": "npm run build",
-    "prepack": "npm run build"
+    "#prepare": "yarn run snyk-protect",
+    "prepare": "yarn run build",
+    "prepack": "yarn run build"
   },
   "files": [
     "/dist",
