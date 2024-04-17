@@ -77,7 +77,7 @@ export default function Cell({
   const x = col * cellSize;
   const y = row * cellSize;
 
-  const circle = answer.toLowerCase() === answer; // lowercase means it should be emphasized
+  const circle = answer.search(/[a-z]/) !== -1; // lowercase means it should be emphasized
 
   return (
     <g
